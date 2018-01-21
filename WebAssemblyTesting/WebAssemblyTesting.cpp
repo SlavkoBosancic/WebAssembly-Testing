@@ -37,7 +37,9 @@ int main()
 	int wallThickness = 30, ball_size = wallThickness;
 
 	GameEngine engine (scene_width, scene_height);
-
+	engine.SetClearSceneCallback(&jsClearCanvas);
+	engine.SetDrawRectangleCallback(&jsDrawRectangle);
+	engine.SetDrawCircleCallback(&jsDrawCircle);
 
 	// Adding walls to scene
 	AddWallsToScene(&engine, wallThickness);
@@ -58,11 +60,11 @@ int main()
 	engine.DrawScene();
 
 	//Start moving the ball
-	while (int i = 1)
-	{
-		engine.MoveObject(&ball);
-		i--;
-	}
+	// while (int i = 1)
+	// {
+	// 	engine.MoveObject(&ball);
+	// 	i--;
+	// }
 
 	return 0;
 }

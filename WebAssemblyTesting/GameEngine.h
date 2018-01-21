@@ -17,6 +17,10 @@ class GameEngine
 		GameEngine(int scene_width, int scene_height);
 		~GameEngine();
 
+		void SetClearSceneCallback(void (*callback)());
+		void SetDrawRectangleCallback(void (*callback)(int, int, int, int));
+		void SetDrawCircleCallback(void (*callback)(int, int, int, int));
+
 		float GetSceneWidth();
 		float GetSceneHeight();
 

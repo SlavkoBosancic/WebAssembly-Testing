@@ -1,29 +1,45 @@
-var ctx = document.getElementById("pong")
-                  .getContext("2d");
+(function() {
 
-var env = {
-  setInterval: function (x) {
-    setInterval(() => {
-      wasmInstance.exports.runCallback(x);  
-    }, 16);
-  },
-  jsFillRect: function (x, y, w, h) {
-    ctx.fillStyle = "orange";
-    ctx.fillRect(x, y, w, h);
-  },
-  jsClearRect: function (x, y, w, h) {
-    ctx.clearRect(x, y, w, h);
-  }
-}
+  var canvasElemenet = document.getElementById("pong");
+  var canvasWidth = canvasElemenet.width;
+  var canvasHeight = canvasElemenet.height;
+  var canvasContext = canvasElemenet.getContext("2d");
 
-var wasmModule = new WebAssembly.Module(wasmCode);
-var wasmInstance = new WebAssembly.Instance(wasmModule, {
-  env: env
-});
-var m = new Uint8Array(wasmInstance.exports.memory.buffer);
 
-lib.setStackPtr(wasmInstance.exports.memory, 0x2000);
+  var importObject = {
+    imports: {
+        imported_func: function(arg) {
+          console.log(arg);
+        }
+      }
+    };
 
-wasmInstance.exports.main();
+  var env = {
+    imports: {
+      jsClearCanvas: function () {
+        debugger;
+        canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
+      },
+      jsDrawRectangle: function (x, y, width, height) {
+        debugger;
+        ctx.fillStyle = "yellow";
+        ctx.fillRect(x, y, width, height);
+      },
+      jsDrawCircle: function (x, y, width, height) {
+        debugger;
+        ctx.clearRect(x, y, w, h);
+      }
+    }
+  };
 
-lib.showCanvas(true);
+  fetch('pong.wasm').then(response => {
+    debugger;
+    return response.arrayBuffer();
+  }).then(bytes =>{
+    debugger;
+    return WebAssembly.instantiate(bytes, env)
+  }).then(results => {
+    debugger;
+  });
+
+})();

@@ -12,6 +12,21 @@ GameEngine::~GameEngine()
 {
 }
 
+void GameEngine::SetClearSceneCallback(void (*callback)())
+{
+	clearScene = callback;
+}
+
+void GameEngine::SetDrawRectangleCallback(void (*callback)(int, int, int, int))
+{
+	drawRectangle = callback;
+}
+
+void GameEngine::SetDrawCircleCallback(void (*callback)(int, int, int, int))
+{
+	drawCircle = callback;
+}
+
 float GameEngine::GetSceneWidth()
 {
 	return _scene_width;
@@ -34,7 +49,7 @@ void GameEngine::MoveObject(MovableGameObject *movingObject)
 
 void GameEngine::DrawScene()
 {
-	//clearScene();
+	clearScene();
 
 	for (int i = 0; i < sceneArrayIndex; i++) {
 		GameObject obj = scene[i];
@@ -42,9 +57,9 @@ void GameEngine::DrawScene()
 		float *dimensions = obj.GetDimensions();
 
 		if (obj.isCircle) {
-			//drawCircle(*position, *(position++), *dimensions, *(dimensions++));
+			drawCircle(*position, *(position++), *dimensions, *(dimensions++));
 		} else {
-			//drawRectangle(*position, *(position++), *dimensions, *(dimensions++));
+			drawRectangle(*position, *(position++), *dimensions, *(dimensions++));
 		}
 	}
 }
