@@ -2,9 +2,11 @@
 #include "GameEngine.h"
 #include "MovableGameObject.h"
 
-extern void jsClearCanvas();
-extern void jsDrawRectangle(int x, int y, int width, int height);
-extern void jsDrawCircle(int x, int y, int width, int height);
+extern "C" {
+	extern void jsClearCanvas();
+	extern void jsDrawRectangle(int x, int y, int width, int height);
+	extern void jsDrawCircle(int x, int y, int width, int height);
+}
 
 void AddWallsToScene(GameEngine *engine, int wallThickness)
 {
@@ -45,7 +47,11 @@ int main()
 	float ballY = (scene_height - ball_size) / 2;
 	MovableGameObject ball (ballX, ballY, ball_size, ball_size);
 	ball.isCircle = true;
-	ball.speed = { 3.0f, 1.5f };
+	Speed ballSpeed;
+	ballSpeed.speed_x = 3.0f;
+	ballSpeed.speed_y = 1.5f;
+	ball.speed = ballSpeed;
+	
 	engine.AddObject(ball);
 
 	// Initial drawing of the scene

@@ -1,5 +1,5 @@
 #pragma once
-#include "MovableGameObject.h";
+#include "MovableGameObject.h"
 
 class GameEngine
 {
