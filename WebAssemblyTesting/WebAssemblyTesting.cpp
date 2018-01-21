@@ -33,7 +33,7 @@ void AddWallsToScene(GameEngine *engine, int wallThickness)
 int main()
 {
 	int scene_width = 1024;
-	int scene_height = 768;
+	int scene_height = 500;
 	int wallThickness = 30, ball_size = wallThickness;
 
 	GameEngine engine (scene_width, scene_height);
@@ -51,7 +51,7 @@ int main()
 	ballSpeed.speed_x = 3.0f;
 	ballSpeed.speed_y = 1.5f;
 	ball.speed = ballSpeed;
-	
+
 	engine.AddObject(ball);
 
 	// Initial drawing of the scene
