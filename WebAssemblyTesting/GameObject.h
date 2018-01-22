@@ -19,8 +19,8 @@ class GameObject
 		GameObject(float x, float y, float width, float height);
 		~GameObject();
 
-		float* GetCoordinates();
-		float* GetDimensions();
+		float *GetCoordinates();
+		float *GetDimensions();
 		bool isCircle = false;
 };
 

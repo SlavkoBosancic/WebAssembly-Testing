@@ -24,14 +24,14 @@ GameObject::~GameObject()
 {
 }
 
-float* GameObject::GetCoordinates()
+float *GameObject::GetCoordinates()
 {
-	float result[2] = { position_x, position_y };
-	return result;
+	//float *result = new float[2] { position_x, position_y };
+	return new float[2] { position_x, position_y };
 }
 
-float* GameObject::GetDimensions()
+float *GameObject::GetDimensions()
 {
-	float result[2] = { object_width, object_height };
-	return result;
+	//float result[] = { object_width, object_height };
+	return new float[2] { object_width, object_height };
 }

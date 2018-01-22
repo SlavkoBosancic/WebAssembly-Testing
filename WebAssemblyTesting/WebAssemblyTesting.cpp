@@ -1,29 +1,32 @@
 #include "stdafx.h"
 #include "GameEngine.h"
 #include "MovableGameObject.h"
-#include <emscripten.h>
+//#include <emscripten.h>
 
 // ----- External JS fuctions -------------------
 
 void jsClearCanvas()
 {
-	EM_ASM(
-		externalFunctions.jsClearCanvas();
-	);
+	printf("Clear canvas!\n");
+	// EM_ASM(
+	// 	externalFunctions.jsClearCanvas();
+	// );
 }
 
 void jsDrawRectangle(int x, int y, int width, int height)
 {
-	EM_ASM_({
-		externalFunctions.jsDrawRectangle($0, $1, $2, $3);
-	}, x, y, width, height);
+	printf("Draw Rect to canvas! {%d, %d, %d, %d}\n", x, y, width, height);
+	// EM_ASM_({
+	// 	externalFunctions.jsDrawRectangle($0, $1, $2, $3);
+	// }, x, y, width, height);
 }
 
 void jsDrawCircle(int x, int y, int width, int height)
 {
-	EM_ASM_({
-		externalFunctions.jsDrawCircle($0, $1, $2, $3);
-	}, x, y, width, height);
+	printf("Draw Circle to canvas! {%d, %d, %d, %d}\n", x, y, width, height);
+	// EM_ASM_({
+	// 	externalFunctions.jsDrawCircle($0, $1, $2, $3);
+	// }, x, y, width, height);
 }
 
 // ---------------------------------------

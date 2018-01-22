@@ -52,14 +52,18 @@ void GameEngine::DrawScene()
 	clearScene();
 
 	for (int i = 0; i < sceneArrayIndex; i++) {
+
 		GameObject obj = scene[i];
 		float *position = obj.GetCoordinates();
 		float *dimensions = obj.GetDimensions();
-
+		
 		if (obj.isCircle) {
-			drawCircle(*position, *(position++), *dimensions, *(dimensions++));
+			drawCircle(*position, *(position + 1), *dimensions, *(dimensions + 1));
 		} else {
-			drawRectangle(*position, *(position++), *dimensions, *(dimensions++));
+			drawRectangle(*position, *(position + 1), *dimensions, *(dimensions + 1));
 		}
+
+		delete position;
+		delete dimensions;
 	}
 }
