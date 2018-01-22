@@ -1745,14 +1745,23 @@ integrateWasmJS();
 
 // === Body ===
 
-var ASM_CONSTS = [];
+var ASM_CONSTS = [function() { externalFunctions.jsClearCanvas(); },
+ function($0, $1, $2, $3) { externalFunctions.jsDrawRectangle($0, $1, $2, $3); },
+ function($0, $1, $2, $3) { externalFunctions.jsDrawCircle($0, $1, $2, $3); }];
 
+function _emscripten_asm_const_i(code) {
+  return ASM_CONSTS[code]();
+}
+
+function _emscripten_asm_const_iiiii(code, a0, a1, a2, a3) {
+  return ASM_CONSTS[code](a0, a1, a2, a3);
+}
 
 
 
 STATIC_BASE = GLOBAL_BASE;
 
-STATICTOP = STATIC_BASE + 6352;
+STATICTOP = STATIC_BASE + 6496;
 /* global initializers */  __ATINIT__.push();
 
 
@@ -1761,7 +1770,7 @@ STATICTOP = STATIC_BASE + 6352;
 
 
 
-var STATIC_BUMP = 6352;
+var STATIC_BUMP = 6496;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 
@@ -2081,21 +2090,7 @@ function copyTempDouble(ptr) {
       Module['abort']();
     }
 
-  function _jsClearCanvas() {
-        debugger;
-        canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
-      }
-
-  function _jsDrawCircle(x, y, width, height) {
-        debugger;
-        ctx.clearRect(x, y, w, h);
-      }
-
-  function _jsDrawRectangle(x, y, width, height) {
-        debugger;
-        ctx.fillStyle = "yellow";
-        ctx.fillRect(x, y, width, height);
-      }
+  var _emscripten_asm_const_int=true;
 
    
 
@@ -2305,7 +2300,7 @@ function invoke_viiiiii(index,a1,a2,a3,a4,a5,a6) {
 
 Module.asmGlobalArg = {};
 
-Module.asmLibraryArg = { "abort": abort, "assert": assert, "enlargeMemory": enlargeMemory, "getTotalMemory": getTotalMemory, "abortOnCannotGrowMemory": abortOnCannotGrowMemory, "abortStackOverflow": abortStackOverflow, "nullFunc_i": nullFunc_i, "nullFunc_ii": nullFunc_ii, "nullFunc_iiii": nullFunc_iiii, "nullFunc_v": nullFunc_v, "nullFunc_vi": nullFunc_vi, "nullFunc_viffff": nullFunc_viffff, "nullFunc_vii": nullFunc_vii, "nullFunc_viiii": nullFunc_viiii, "nullFunc_viiiii": nullFunc_viiiii, "nullFunc_viiiiii": nullFunc_viiiiii, "invoke_i": invoke_i, "invoke_ii": invoke_ii, "invoke_iiii": invoke_iiii, "invoke_v": invoke_v, "invoke_vi": invoke_vi, "invoke_viffff": invoke_viffff, "invoke_vii": invoke_vii, "invoke_viiii": invoke_viiii, "invoke_viiiii": invoke_viiiii, "invoke_viiiiii": invoke_viiiiii, "__ZN10GameEngine13GetSceneWidthEv": __ZN10GameEngine13GetSceneWidthEv, "__ZN10GameEngine14GetSceneHeightEv": __ZN10GameEngine14GetSceneHeightEv, "__ZN10GameEngine21SetClearSceneCallbackEPFvvE": __ZN10GameEngine21SetClearSceneCallbackEPFvvE, "__ZN10GameEngine21SetDrawCircleCallbackEPFviiiiE": __ZN10GameEngine21SetDrawCircleCallbackEPFviiiiE, "__ZN10GameEngine24SetDrawRectangleCallbackEPFviiiiE": __ZN10GameEngine24SetDrawRectangleCallbackEPFviiiiE, "__ZN10GameEngine9AddObjectE10GameObject": __ZN10GameEngine9AddObjectE10GameObject, "__ZN10GameEngine9DrawSceneEv": __ZN10GameEngine9DrawSceneEv, "__ZN10GameEngineC1Eii": __ZN10GameEngineC1Eii, "__ZN10GameEngineD1Ev": __ZN10GameEngineD1Ev, "__ZN10GameObjectC1Effff": __ZN10GameObjectC1Effff, "__ZN10GameObjectD1Ev": __ZN10GameObjectD1Ev, "__ZN17MovableGameObjectC1Effff": __ZN17MovableGameObjectC1Effff, "__ZN17MovableGameObjectD1Ev": __ZN17MovableGameObjectD1Ev, "__ZSt18uncaught_exceptionv": __ZSt18uncaught_exceptionv, "___cxa_begin_catch": ___cxa_begin_catch, "___cxa_end_catch": ___cxa_end_catch, "___cxa_find_matching_catch": ___cxa_find_matching_catch, "___cxa_find_matching_catch_2": ___cxa_find_matching_catch_2, "___cxa_find_matching_catch_3": ___cxa_find_matching_catch_3, "___cxa_free_exception": ___cxa_free_exception, "___gxx_personality_v0": ___gxx_personality_v0, "___lock": ___lock, "___resumeException": ___resumeException, "___setErrNo": ___setErrNo, "___syscall140": ___syscall140, "___syscall146": ___syscall146, "___syscall54": ___syscall54, "___syscall6": ___syscall6, "___unlock": ___unlock, "_abort": _abort, "_emscripten_memcpy_big": _emscripten_memcpy_big, "_jsClearCanvas": _jsClearCanvas, "_jsDrawCircle": _jsDrawCircle, "_jsDrawRectangle": _jsDrawRectangle, "_pthread_getspecific": _pthread_getspecific, "_pthread_key_create": _pthread_key_create, "_pthread_once": _pthread_once, "_pthread_setspecific": _pthread_setspecific, "flush_NO_FILESYSTEM": flush_NO_FILESYSTEM, "DYNAMICTOP_PTR": DYNAMICTOP_PTR, "tempDoublePtr": tempDoublePtr, "ABORT": ABORT, "STACKTOP": STACKTOP, "STACK_MAX": STACK_MAX };
+Module.asmLibraryArg = { "abort": abort, "assert": assert, "enlargeMemory": enlargeMemory, "getTotalMemory": getTotalMemory, "abortOnCannotGrowMemory": abortOnCannotGrowMemory, "abortStackOverflow": abortStackOverflow, "nullFunc_i": nullFunc_i, "nullFunc_ii": nullFunc_ii, "nullFunc_iiii": nullFunc_iiii, "nullFunc_v": nullFunc_v, "nullFunc_vi": nullFunc_vi, "nullFunc_viffff": nullFunc_viffff, "nullFunc_vii": nullFunc_vii, "nullFunc_viiii": nullFunc_viiii, "nullFunc_viiiii": nullFunc_viiiii, "nullFunc_viiiiii": nullFunc_viiiiii, "invoke_i": invoke_i, "invoke_ii": invoke_ii, "invoke_iiii": invoke_iiii, "invoke_v": invoke_v, "invoke_vi": invoke_vi, "invoke_viffff": invoke_viffff, "invoke_vii": invoke_vii, "invoke_viiii": invoke_viiii, "invoke_viiiii": invoke_viiiii, "invoke_viiiiii": invoke_viiiiii, "__ZN10GameEngine13GetSceneWidthEv": __ZN10GameEngine13GetSceneWidthEv, "__ZN10GameEngine14GetSceneHeightEv": __ZN10GameEngine14GetSceneHeightEv, "__ZN10GameEngine21SetClearSceneCallbackEPFvvE": __ZN10GameEngine21SetClearSceneCallbackEPFvvE, "__ZN10GameEngine21SetDrawCircleCallbackEPFviiiiE": __ZN10GameEngine21SetDrawCircleCallbackEPFviiiiE, "__ZN10GameEngine24SetDrawRectangleCallbackEPFviiiiE": __ZN10GameEngine24SetDrawRectangleCallbackEPFviiiiE, "__ZN10GameEngine9AddObjectE10GameObject": __ZN10GameEngine9AddObjectE10GameObject, "__ZN10GameEngine9DrawSceneEv": __ZN10GameEngine9DrawSceneEv, "__ZN10GameEngineC1Eii": __ZN10GameEngineC1Eii, "__ZN10GameEngineD1Ev": __ZN10GameEngineD1Ev, "__ZN10GameObjectC1Effff": __ZN10GameObjectC1Effff, "__ZN10GameObjectD1Ev": __ZN10GameObjectD1Ev, "__ZN17MovableGameObjectC1Effff": __ZN17MovableGameObjectC1Effff, "__ZN17MovableGameObjectD1Ev": __ZN17MovableGameObjectD1Ev, "__ZSt18uncaught_exceptionv": __ZSt18uncaught_exceptionv, "___cxa_begin_catch": ___cxa_begin_catch, "___cxa_end_catch": ___cxa_end_catch, "___cxa_find_matching_catch": ___cxa_find_matching_catch, "___cxa_find_matching_catch_2": ___cxa_find_matching_catch_2, "___cxa_find_matching_catch_3": ___cxa_find_matching_catch_3, "___cxa_free_exception": ___cxa_free_exception, "___gxx_personality_v0": ___gxx_personality_v0, "___lock": ___lock, "___resumeException": ___resumeException, "___setErrNo": ___setErrNo, "___syscall140": ___syscall140, "___syscall146": ___syscall146, "___syscall54": ___syscall54, "___syscall6": ___syscall6, "___unlock": ___unlock, "_abort": _abort, "_emscripten_asm_const_i": _emscripten_asm_const_i, "_emscripten_asm_const_iiiii": _emscripten_asm_const_iiiii, "_emscripten_memcpy_big": _emscripten_memcpy_big, "_pthread_getspecific": _pthread_getspecific, "_pthread_key_create": _pthread_key_create, "_pthread_once": _pthread_once, "_pthread_setspecific": _pthread_setspecific, "flush_NO_FILESYSTEM": flush_NO_FILESYSTEM, "DYNAMICTOP_PTR": DYNAMICTOP_PTR, "tempDoublePtr": tempDoublePtr, "ABORT": ABORT, "STACKTOP": STACKTOP, "STACK_MAX": STACK_MAX };
 // EMSCRIPTEN_START_ASM
 var asm =Module["asm"]// EMSCRIPTEN_END_ASM
 (Module.asmGlobalArg, Module.asmLibraryArg, buffer);
