@@ -1,0 +1,1 @@
+emcc WebAssemblyTesting.cpp stdafx.cpp MovableGameObject.cpp GameObject.cpp GameEngine.cpp -std=c++11 -s WASM=1 -o pong.js
