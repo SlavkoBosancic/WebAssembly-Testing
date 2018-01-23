@@ -81,7 +81,7 @@ void GameEngine::MoveBall(MovableGameObject *ball)
 		GameObject *obj = &scene[i];
 
 		// if obj is not the ball itself
-		if(obj != ball){
+		if(!obj->isCircle){
 			float *objPosition =  obj->GetCoordinates();
 			float *objDimensions = obj->GetDimensions();
 
@@ -128,7 +128,7 @@ bool GameEngine::IsOverlaping(float o1_start, float o1_end, float o2_start, floa
 	if(o1_start <= o2_start){
 		currentLenght = o2_end - o1_start;
 	}else{
-		currentLenght = o1_end - o1_start;
+		currentLenght = o1_end - o2_start;
 	}
 
 	return (totalLength - currentLenght) >= 0;
