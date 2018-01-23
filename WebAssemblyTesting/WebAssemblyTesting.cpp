@@ -2,6 +2,7 @@
 #include "GameEngine.h"
 #include "MovableGameObject.h"
 #include <emscripten.h>
+#include <unistd.h>
 
 // ----- External JS fuctions -------------------
 
@@ -82,11 +83,11 @@ int main()
 	engine.DrawScene();
 
 	//Start moving the ball
-	// while (int i = 1)
-	// {
-	// 	engine.MoveObject(&ball);
-	// 	i--;
-	// }
+	for(int i = 0; i < 200; i++)
+	{
+		engine.MoveBall(&ball);
+		usleep(200);
+	}
 
 	return 0;
 }

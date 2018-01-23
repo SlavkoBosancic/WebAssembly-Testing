@@ -71,6 +71,8 @@ void GameEngine::MoveBall(MovableGameObject *ball)
 
 	float ballX = *ballPosition;
 	float ballY = *(ballPosition + 1);
+	float nextBallX = ballX + ball->speed.speed_x;
+	float nextBallY = ballY + ball->speed.speed_y;
 
 	float ballWidth = *ballDimensions;
 	float ballHeight = *(ballDimensions + 1);
@@ -78,7 +80,7 @@ void GameEngine::MoveBall(MovableGameObject *ball)
 	for (int i = 0; i < sceneArrayIndex; i++) {
 		GameObject *obj = &scene[i];
 
-		// if obj is not the ball it self
+		// if obj is not the ball itself
 		if(obj != ball){
 			float *objPosition =  obj->GetCoordinates();
 			float *objDimensions = obj->GetDimensions();
@@ -89,10 +91,33 @@ void GameEngine::MoveBall(MovableGameObject *ball)
 			float objWidth = *objDimensions;
 			float objHeight = *(objDimensions + 1);
 
-			bool xOverlap = IsOverlaping(objX, (objX + objWidth), ballX, (ballX + ballWidth));
-			bool yOverlap = IsOverlaping(objY, (objY + objHeight), ballY, (ballY + ballHeight));
+			bool overlapX = IsOverlaping(objX, (objX + objWidth), ballX, (ballX + ballWidth));
+			bool overlapY = IsOverlaping(objY, (objY + objHeight), ballY, (ballY + ballHeight));
+
+			// if overlaping already, just set new coordinates... change of direction already done
+			if(!(overlapX && overlapY)){
+				// check if next movement will colide the ball with object
+				bool nextOverlapX = IsOverlaping(objX, (objX + objWidth), nextBallX, (nextBallX + ballWidth));
+				bool nextOverlapY = IsOverlaping(objY, (objY + objHeight), nextBallY, (nextBallY + ballHeight));
+
+				if(nextOverlapX && nextOverlapY){
+					// colision on next move, chage direction of ball movement
+					// check which axis was not in colision previously, that direction needs to change
+					if(!overlapX) { ball->speed.speed_x *= -1; }
+					if(!overlapY) { ball->speed.speed_y *= -1; }
+				}
+			}
+
+			delete objPosition;
+			delete objDimensions;
 		}
 	}
+	
+	delete ballPosition;
+	delete ballDimensions;
+
+	ball->SetNewCoordinates(nextBallX, nextBallY);
+	DrawScene();
 }
 
 bool GameEngine::IsOverlaping(float o1_start, float o1_end, float o2_start, float o2_end)
