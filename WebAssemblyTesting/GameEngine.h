@@ -13,6 +13,8 @@ class GameEngine
 	void (*drawRectangle)(int x, int y, int width, int height);
 	void (*drawCircle)(int x, int y, int width, int height);
 
+	bool IsOverlaping(float o1_start, float o1_end, float o2_start, float o2_end);
+
 	public:
 		GameEngine(int scene_width, int scene_height);
 		~GameEngine();
@@ -25,9 +27,10 @@ class GameEngine
 		float GetSceneHeight();
 
 		void AddObject(GameObject gameObject);
-		void MoveObject(MovableGameObject *movingObject);
-
 		void ClearScene();
 		void DrawScene();
+
+		void MoveBall(MovableGameObject *ball);
+		void MovePaddle(MovableGameObject *paddle);
 };
 
