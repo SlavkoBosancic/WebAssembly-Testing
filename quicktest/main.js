@@ -23,6 +23,11 @@ window.externalFunctions = {
   }
 };
 
+canvasElemenet.addEventListener("click", function(event, data){
+  debugger;
+  document.cMoveBall = Module.cwrap('MoveBall', null);
+});
+
   // fetch('pong.wasm').then(response => {
   //   debugger;
   //   return response.arrayBuffer();

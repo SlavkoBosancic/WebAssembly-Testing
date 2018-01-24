@@ -4,6 +4,10 @@
 #include <emscripten.h>
 #include <unistd.h>
 
+
+GameEngine *global_engine;
+MovableGameObject *global_ball;
+
 // ----- External JS fuctions -------------------
 
 void jsClearCanvas()
@@ -73,7 +77,6 @@ MovableGameObject *AddBallToScene(GameEngine *engine, int ballSize)
 	return ball;
 }
 
-
 int main()
 {
 	int scene_width = 1024;
@@ -93,14 +96,21 @@ int main()
 
 	// Initial drawing of the scene
 	engine->DrawScene();
-
-	//Start moving the ball
-	for(int i = 0; i < 200; i++)
-	{
-		engine->MoveBall(ball);
-		usleep(200);
-	}
-
-	delete engine;
 	return 0;
+}
+
+extern "C" {
+
+	void MoveBall()
+	{
+		printf("Moveball called.");
+
+		//Start moving the ball
+		for(int i = 0; i < 20000; i++)
+		{
+			global_engine->MoveBall(global_ball);
+			usleep(200);
+		}
+	}
+	
 }

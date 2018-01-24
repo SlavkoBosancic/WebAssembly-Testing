@@ -1,1 +1,1 @@
-emcc WebAssemblyTesting.cpp stdafx.cpp MovableGameObject.cpp GameObject.cpp GameEngine.cpp -std=c++11 -s WASM=1 -o ./../quicktest/pong.js
+emcc WebAssemblyTesting.cpp stdafx.cpp MovableGameObject.cpp GameObject.cpp GameEngine.cpp -std=c++11 -s WASM=1 -s EXPORTED_FUNCTIONS="['_main', '_MoveBall']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall', 'cwrap']" -o ./../quicktest/pong.js
