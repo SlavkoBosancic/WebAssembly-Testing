@@ -6,7 +6,7 @@ class GameEngine
 	float _scene_width;
 	float _scene_height;
 
-	GameObject scene[7];
+	GameObject *scene[7];
 	int sceneArrayIndex = 0;
 
 	void (*clearScene)();
@@ -26,7 +26,7 @@ class GameEngine
 		float GetSceneWidth();
 		float GetSceneHeight();
 
-		void AddObject(GameObject gameObject);
+		void AddObject(GameObject *gameObject);
 		void ClearScene();
 		void DrawScene();
 

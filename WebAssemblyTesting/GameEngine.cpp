@@ -10,6 +10,10 @@ GameEngine::GameEngine(int scene_width, int scene_height)
 
 GameEngine::~GameEngine()
 {
+	for (int i = 0; i < sceneArrayIndex; i++) {
+		GameObject *obj = scene[i];
+		delete obj;
+	}
 }
 
 void GameEngine::SetClearSceneCallback(void (*callback)())
@@ -37,7 +41,7 @@ float GameEngine::GetSceneHeight()
 	return _scene_height;
 }
 
-void GameEngine::AddObject(GameObject gameObject)
+void GameEngine::AddObject(GameObject *gameObject)
 {
 	scene[sceneArrayIndex] = gameObject;
 	sceneArrayIndex++;
@@ -49,11 +53,11 @@ void GameEngine::DrawScene()
 
 	for (int i = 0; i < sceneArrayIndex; i++) {
 
-		GameObject obj = scene[i];
-		float *position = obj.GetCoordinates();
-		float *dimensions = obj.GetDimensions();
+		GameObject *obj = scene[i];
+		float *position = obj->GetCoordinates();
+		float *dimensions = obj->GetDimensions();
 		
-		if (obj.isCircle) {
+		if (obj->isCircle) {
 			drawCircle(*position, *(position + 1), *dimensions, *(dimensions + 1));
 		} else {
 			drawRectangle(*position, *(position + 1), *dimensions, *(dimensions + 1));
@@ -78,10 +82,10 @@ void GameEngine::MoveBall(MovableGameObject *ball)
 	float ballHeight = *(ballDimensions + 1);
 
 	for (int i = 0; i < sceneArrayIndex; i++) {
-		GameObject *obj = &scene[i];
+		GameObject *obj = scene[i];
 
 		// if obj is not the ball itself
-		if(!obj->isCircle){
+		if(obj != ball){
 			float *objPosition =  obj->GetCoordinates();
 			float *objDimensions = obj->GetDimensions();
 
