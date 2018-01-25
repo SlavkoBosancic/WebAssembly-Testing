@@ -1,39 +1,10 @@
 #include "stdafx.h"
 #include "GameEngine.h"
 #include "MovableGameObject.h"
-#include <emscripten.h>
-#include <unistd.h>
 
 
-GameEngine *global_engine;
-MovableGameObject *global_ball;
-
-// ----- External JS fuctions -------------------
-
-void jsClearCanvas()
-{
-	EM_ASM(
-		externalFunctions.jsClearCanvas();
-	);
-}
-
-void jsDrawRectangle(int x, int y, int width, int height)
-{
-	EM_ASM_({
-		externalFunctions.jsDrawRectangle($0, $1, $2, $3);
-	}, x, y, width, height);
-}
-
-void jsDrawCircle(int x, int y, int width, int height)
-{
-	int radius = width / 2;
-
-	EM_ASM_({
-		externalFunctions.jsDrawCircle($0, $1, $2);
-	}, x, y, radius);
-}
-
-// ---------------------------------------
+static GameEngine *global_engine;
+static MovableGameObject *global_ball;
 
 void AddWallsToScene(GameEngine *engine, int wallThickness)
 {
@@ -84,9 +55,6 @@ int main()
 	int wallThickness = 30, ball_size = 30;
 
 	GameEngine *engine = new GameEngine(scene_width, scene_height);
-	engine->SetClearSceneCallback(&jsClearCanvas);
-	engine->SetDrawRectangleCallback(&jsDrawRectangle);
-	engine->SetDrawCircleCallback(&jsDrawCircle);
 
 	// Adding walls to scene
 	AddWallsToScene(engine, wallThickness);
@@ -96,6 +64,9 @@ int main()
 
 	// Initial drawing of the scene
 	engine->DrawScene();
+
+	global_engine = engine;
+	global_ball = ball;
 	return 0;
 }
 
@@ -103,14 +74,7 @@ extern "C" {
 
 	void MoveBall()
 	{
-		printf("Moveball called.");
-
-		//Start moving the ball
-		for(int i = 0; i < 20000; i++)
-		{
-			global_engine->MoveBall(global_ball);
-			usleep(200);
-		}
+		global_engine->MoveBall(global_ball);
 	}
 	
 }

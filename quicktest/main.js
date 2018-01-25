@@ -23,18 +23,23 @@ window.externalFunctions = {
   }
 };
 
-canvasElemenet.addEventListener("click", function(event, data){
-  debugger;
-  document.cMoveBall = Module.cwrap('MoveBall', null);
-});
+window.internalFunctions = {};
 
-  // fetch('pong.wasm').then(response => {
-  //   debugger;
-  //   return response.arrayBuffer();
-  // }).then(bytes =>{
-  //   debugger;
-  //   return WebAssembly.compile(bytes)
-  // }).then(module => {
-  //   debugger;
-  //   var t = new WebAssembly.Instance(module);
-  // });
+var Module = {
+  preRun: [function(){
+    window.internalFunctions.moveBall = Module.cwrap('MoveBall', null)
+  }],
+  postRun: [function(){
+    var interval = setInterval(function(){
+      window.internalFunctions.moveBall();
+    }, 20);
+  }]
+};
+
+// var Module = {
+//   noInitialRun: false,     // should main() be called automaticly (Default: false)
+//   monitorRunDependencies: function(leftDependencies) { /* number of dependencies left to load, before init */ },
+//   preRun: [function(){ /* called before initializing main() */ }],
+//   onRuntimeInitialized: function(){ /* called after initialization, just before starting main() */ },
+//   postRun: [function(){ /* called after main() finished */ }]
+// };

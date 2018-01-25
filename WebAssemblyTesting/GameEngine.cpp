@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GameEngine.h"
+#include <emscripten.h>
 
 
 GameEngine::GameEngine(int scene_width, int scene_height)
@@ -10,25 +11,34 @@ GameEngine::GameEngine(int scene_width, int scene_height)
 
 GameEngine::~GameEngine()
 {
+	printf("Game engine finalizer called.");
 	for (int i = 0; i < sceneArrayIndex; i++) {
 		GameObject *obj = scene[i];
 		delete obj;
 	}
 }
 
-void GameEngine::SetClearSceneCallback(void (*callback)())
+void GameEngine::ClearSceneJS()
 {
-	clearScene = callback;
+	EM_ASM(
+		externalFunctions.jsClearCanvas();
+	);
 }
 
-void GameEngine::SetDrawRectangleCallback(void (*callback)(int, int, int, int))
+void GameEngine::DrawRectangleJS(int x, int y, int width, int height)
 {
-	drawRectangle = callback;
+	EM_ASM_({
+		externalFunctions.jsDrawRectangle($0, $1, $2, $3);
+	}, x, y, width, height);
 }
 
-void GameEngine::SetDrawCircleCallback(void (*callback)(int, int, int, int))
+void GameEngine::DrawCircleJS(int x, int y, int width, int height)
 {
-	drawCircle = callback;
+	int radius = width / 2;
+
+	EM_ASM_({
+		externalFunctions.jsDrawCircle($0, $1, $2);
+	}, x, y, radius);
 }
 
 float GameEngine::GetSceneWidth()
@@ -49,7 +59,7 @@ void GameEngine::AddObject(GameObject *gameObject)
 
 void GameEngine::DrawScene()
 {
-	clearScene();
+	ClearSceneJS();
 
 	for (int i = 0; i < sceneArrayIndex; i++) {
 
@@ -58,9 +68,9 @@ void GameEngine::DrawScene()
 		float *dimensions = obj->GetDimensions();
 		
 		if (obj->isCircle) {
-			drawCircle(*position, *(position + 1), *dimensions, *(dimensions + 1));
+			DrawCircleJS(*position, *(position + 1), *dimensions, *(dimensions + 1));
 		} else {
-			drawRectangle(*position, *(position + 1), *dimensions, *(dimensions + 1));
+			DrawRectangleJS(*position, *(position + 1), *dimensions, *(dimensions + 1));
 		}
 
 		delete position;
