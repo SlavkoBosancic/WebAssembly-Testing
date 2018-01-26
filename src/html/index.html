@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="utf-8">
+        <title>WebAssembly Test</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="main.css">
+        <link rel="shortcut icon" href="">
+    </head>
+    <body>
+        <canvas id="pong" width="1024" height="500"></canvas>
+
+        <div id="controls">
+            <div class="playerScore pull-left">
+                <b>Player 1</b><br />
+                <span>0</span><br />
+                <small>controls: q w</small>
+            </div>
+            <div class="playerScore pull-right">
+                <b>Player 2</b><br />
+                <span>0</span><br />
+                <small>controls: &uarr; &darr;</small>
+            </div>
+        </div>
+
+        <script src="main.js"></script>
+        <script async type="text/javascript" src="pong.js"></script>
+    </body>
+</html>

@@ -3,7 +3,7 @@ var canvasWidth = canvasElemenet.width;
 var canvasHeight = canvasElemenet.height;
 var canvasContext = canvasElemenet.getContext("2d");
 
-window.externalFunctions = {
+window.jsFunctions = {
   jsClearCanvas: function () {
     canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
   },
@@ -23,15 +23,15 @@ window.externalFunctions = {
   }
 };
 
-window.internalFunctions = {};
+window.cppFunctions = {};
 
 var Module = {
   preRun: [function(){
-    window.internalFunctions.moveBall = Module.cwrap('MoveBall', null)
+    cppFunctions.moveBall = Module.cwrap('MoveBall', null)
   }],
   postRun: [function(){
     var interval = setInterval(function(){
-      window.internalFunctions.moveBall();
+      cppFunctions.moveBall();
     }, 20);
   }]
 };
@@ -43,3 +43,12 @@ var Module = {
 //   onRuntimeInitialized: function(){ /* called after initialization, just before starting main() */ },
 //   postRun: [function(){ /* called after main() finished */ }]
 // };
+
+
+document.addEventListener("keydown", function(event){
+  console.log("key DOWN: [" + event.key + "][" + event.keyCode + "]")
+});
+
+document.addEventListener("keyup", function(event){
+  console.log("key UP: [" + event.key + "][" + event.keyCode + "]")
+});

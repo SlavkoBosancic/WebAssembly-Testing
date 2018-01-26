@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "GameEngine.h"
 #include <emscripten.h>
 
@@ -21,14 +20,14 @@ GameEngine::~GameEngine()
 void GameEngine::ClearSceneJS()
 {
 	EM_ASM(
-		externalFunctions.jsClearCanvas();
+		jsFunctions.jsClearCanvas();
 	);
 }
 
 void GameEngine::DrawRectangleJS(int x, int y, int width, int height)
 {
 	EM_ASM_({
-		externalFunctions.jsDrawRectangle($0, $1, $2, $3);
+		jsFunctions.jsDrawRectangle($0, $1, $2, $3);
 	}, x, y, width, height);
 }
 
@@ -37,7 +36,7 @@ void GameEngine::DrawCircleJS(int x, int y, int width, int height)
 	int radius = width / 2;
 
 	EM_ASM_({
-		externalFunctions.jsDrawCircle($0, $1, $2);
+		jsFunctions.jsDrawCircle($0, $1, $2);
 	}, x, y, radius);
 }
 
