@@ -21,6 +21,6 @@ class GameObject
 
 		float *GetCoordinates();
 		float *GetDimensions();
-		bool isCircle = false;
+		bool isBall = false;
 };
 

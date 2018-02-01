@@ -27,6 +27,6 @@ class GameEngine
 		void DrawScene();
 
 		void MoveBall(MovableGameObject *ball);
-		void MovePaddle(MovableGameObject *paddle);
+		void MovePaddle(MovableGameObject *paddle, bool moveDOWN);
 };
 

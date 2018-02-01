@@ -66,7 +66,7 @@ void GameEngine::DrawScene()
 		float *position = obj->GetCoordinates();
 		float *dimensions = obj->GetDimensions();
 		
-		if (obj->isCircle) {
+		if (obj->isBall) {
 			DrawCircleJS(*position, *(position + 1), *dimensions, *(dimensions + 1));
 		} else {
 			DrawRectangleJS(*position, *(position + 1), *dimensions, *(dimensions + 1));
@@ -131,6 +131,69 @@ void GameEngine::MoveBall(MovableGameObject *ball)
 
 	ball->SetNewCoordinates(nextBallX, nextBallY);
 	DrawScene();
+}
+
+void GameEngine::MovePaddle(MovableGameObject *paddle, bool moveDOWN)
+{
+	float *paddlePosition =  paddle->GetCoordinates();
+	float *paddleDimensions = paddle->GetDimensions();
+
+	float paddleX = *paddlePosition;
+	float paddleY = *(paddlePosition + 1);
+
+	float nextPaddleX = paddleX;
+	float nextPaddleY = paddleY + (paddle->speed.speed_y * (moveDOWN ? 1 : -1));
+
+	float paddleWidth = *paddleDimensions;
+	float paddleHeight = *(paddleDimensions + 1);
+
+	bool shouoldMove = true;
+
+	for (int i = 0; i < sceneArrayIndex; i++) {
+		GameObject *obj = scene[i];
+
+		// if obj is not the paddle itself
+		if(obj != paddle)
+		{
+			float *objPosition =  obj->GetCoordinates();
+			float *objDimensions = obj->GetDimensions();
+
+			float objX = *objPosition;
+			float objY = *(objPosition + 1);
+
+			float objWidth = *objDimensions;
+			float objHeight = *(objDimensions + 1);
+
+			bool nextOverlapX = IsOverlaping(objX, (objX + objWidth), nextPaddleX, (nextPaddleX + paddleWidth));
+			bool nextOverlapY = IsOverlaping(objY, (objY + objHeight), nextPaddleY, (nextPaddleY + paddleHeight));
+
+			// if collision on next move
+			if(nextOverlapX && nextOverlapY){
+				bool currentOverlapX = IsOverlaping(objX, (objX + objWidth), paddleX, (paddleX + paddleWidth));
+				bool currentOverlapY = IsOverlaping(objY, (objY + objHeight), paddleY, (paddleY + paddleHeight));
+
+				// check if current position is coallision as well
+				if(currentOverlapX && currentOverlapY){
+					shouoldMove = false;
+
+					delete objPosition;
+					delete objDimensions;
+					break;
+				}
+			}
+
+			delete objPosition;
+			delete objDimensions;
+		}
+	}
+
+	delete paddlePosition;
+	delete paddleDimensions;
+
+	if(shouoldMove){
+		paddle->SetNewCoordinates(nextPaddleX, nextPaddleY);
+		DrawScene();
+	}
 }
 
 bool GameEngine::IsOverlaping(float o1_start, float o1_end, float o2_start, float o2_end)
