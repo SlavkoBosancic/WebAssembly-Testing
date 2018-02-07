@@ -7,4 +7,5 @@ Creating C++ pong game in the browser using Emscripten compiler (clang LLVM unde
 
 
 Run
+
 Just serve the files within the Build folder to the browser (chrome)
