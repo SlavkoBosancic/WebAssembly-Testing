@@ -107,8 +107,19 @@ void GameEngine::MoveBall(MovableGameObject *ball)
 			bool overlapX = IsOverlaping(objX, (objX + objWidth), ballX, (ballX + ballWidth));
 			bool overlapY = IsOverlaping(objY, (objY + objHeight), ballY, (ballY + ballHeight));
 
-			// if overlaping already, just set new coordinates... change of direction already done
-			if(!(overlapX && overlapY)){
+			
+			if(overlapX && overlapY){
+				// if overlaping already, call onCollide mathod
+				// and just set new coordinates... change of direction already done
+				if(ball->onCollide != NULL){
+					ball->onCollide(ball, obj);
+				}
+
+				if(obj->onCollide != NULL){
+					obj->onCollide(obj, ball);
+				}
+
+			} else {
 				// check if next movement will colide the ball with object
 				bool nextOverlapX = IsOverlaping(objX, (objX + objWidth), nextBallX, (nextBallX + ballWidth));
 				bool nextOverlapY = IsOverlaping(objY, (objY + objHeight), nextBallY, (nextBallY + ballHeight));
@@ -147,7 +158,7 @@ void GameEngine::MovePaddle(MovableGameObject *paddle, bool moveDOWN)
 	float paddleWidth = *paddleDimensions;
 	float paddleHeight = *(paddleDimensions + 1);
 
-	bool shouoldMove = true;
+	bool shouldMove = true;
 
 	for (int i = 0; i < sceneArrayIndex; i++) {
 		GameObject *obj = scene[i];
@@ -174,7 +185,7 @@ void GameEngine::MovePaddle(MovableGameObject *paddle, bool moveDOWN)
 
 				// check if current position is coallision as well
 				if(currentOverlapX && currentOverlapY){
-					shouoldMove = false;
+					shouldMove = false;
 
 					delete objPosition;
 					delete objDimensions;
@@ -190,7 +201,7 @@ void GameEngine::MovePaddle(MovableGameObject *paddle, bool moveDOWN)
 	delete paddlePosition;
 	delete paddleDimensions;
 
-	if(shouoldMove){
+	if(shouldMove){
 		paddle->SetNewCoordinates(nextPaddleX, nextPaddleY);
 		DrawScene();
 	}

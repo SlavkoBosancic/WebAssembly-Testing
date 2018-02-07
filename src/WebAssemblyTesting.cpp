@@ -2,12 +2,32 @@
 #include <stdlib.h>
 #include "GameEngine.h"
 #include "MovableGameObject.h"
+#include <emscripten.h>
 
 
 static GameEngine *global_engine;
 static MovableGameObject *global_ball;
 static MovableGameObject *global_left_paddle;
 static MovableGameObject *global_right_paddle;
+
+void increaseScore(bool leftPlayer)
+{
+	EM_ASM_({
+		jsFunctions.increaseScore($0);
+	}, leftPlayer);
+}
+
+void sideWallCollision(GameObject *wall, GameObject *ball)
+{
+	float *wallPosition =  wall->GetCoordinates();
+	float wallX = *wallPosition;
+
+	if(wallX == 0){
+		increaseScore(false);
+	}else{
+		increaseScore(true);
+	}
+}
 
 void AddWallsToScene(GameEngine *engine, int wallThickness)
 {
@@ -24,10 +44,12 @@ void AddWallsToScene(GameEngine *engine, int wallThickness)
 
 	// Left Wall
 	GameObject *leftWall = new GameObject(0, 0 + wallThickness, wallThickness, height - wallThickness);
+	leftWall->onCollide = sideWallCollision;
 	engine->AddObject(leftWall);
 
 	// Right Wall
 	GameObject *rightWall = new GameObject(width - wallThickness, 0 + wallThickness, wallThickness, height - wallThickness);
+	rightWall->onCollide = sideWallCollision;
 	engine->AddObject(rightWall);
 }
 

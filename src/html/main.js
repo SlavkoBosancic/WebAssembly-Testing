@@ -3,6 +3,10 @@ var canvasWidth = canvasElemenet.width;
 var canvasHeight = canvasElemenet.height;
 var canvasContext = canvasElemenet.getContext("2d");
 
+var leftPlayerScore = document.getElementById("leftPlayerScore");
+var rightPlayerScore = document.getElementById("rightPlayerScore");
+
+
 
 window.cppFunctions = {};     // Fuctions to be called from JS -> C++
 
@@ -23,6 +27,12 @@ window.jsFunctions = {        // Functions to be called from C++ -> JS
 
     canvasContext.arc(x + radius, y + radius, radius, 0*Math.PI, 2*Math.PI);
     canvasContext.fill();
+  },
+  increaseScore: function(isLeftPlayer) {
+    var playerScore = isLeftPlayer ? leftPlayerScore : rightPlayerScore;
+    var score = parseInt(playerScore.innerText);
+
+    playerScore.innerText = score + 1;
   }
 };
 

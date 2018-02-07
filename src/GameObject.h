@@ -22,5 +22,7 @@ class GameObject
 		float *GetCoordinates();
 		float *GetDimensions();
 		bool isBall = false;
+
+		void (*onCollide)(GameObject *thisObj, GameObject *collidingObj);
 };
 
